@@ -14,11 +14,7 @@ type CreateClubInputs = {
   name: string;
 };
 
-interface CreateClubProps {
-  children: ReactNode;
-}
-
-const CreateClub = ({ children }: CreateClubProps) => {
+const CreateClub = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -28,7 +24,7 @@ const CreateClub = ({ children }: CreateClubProps) => {
   useEffect(() => {
     let toastId: string | undefined;
     if (isLoading) {
-      toastId = toast.loading("Creating a new club...");
+      toastId = toast.loading("Creating the club...");
     }
 
     return () => toast.remove(toastId);
@@ -40,8 +36,6 @@ const CreateClub = ({ children }: CreateClubProps) => {
 
   async function createClub(data: CreateClubInputs) {
     setIsLoading(true);
-
-    console.log(data);
 
     try {
       const { data: clubData, error: createClubError } = (await supabase
@@ -83,7 +77,7 @@ const CreateClub = ({ children }: CreateClubProps) => {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>{children}</Button>
+      <Button onClick={() => setOpen(true)}>Create a club</Button>
 
       <SlideOver
         open={open}
