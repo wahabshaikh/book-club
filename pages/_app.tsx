@@ -3,10 +3,11 @@ import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import { DefaultSeo } from "next-seo";
+import Layout from "../components/Layout";
 
 function CustomApp({
   Component,
-  pageProps: { session, ...pageProps },
+  pageProps: { session, withoutLayout, ...pageProps },
 }: AppProps) {
   return (
     <>
@@ -61,7 +62,13 @@ function CustomApp({
         ]}
       />
       <SessionProvider session={session}>
-        <Component {...pageProps} />
+        {withoutLayout ? (
+          <Component {...pageProps} />
+        ) : (
+          <Layout>
+            <Component />
+          </Layout>
+        )}
         <Toaster />
       </SessionProvider>
     </>
