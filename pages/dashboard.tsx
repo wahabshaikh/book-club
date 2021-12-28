@@ -1,7 +1,12 @@
 import { NextPage } from "next";
+import CreateClub from "../components/CreateClub";
 
 const Dashboard: NextPage = () => {
-  return <h1>Dashboard</h1>;
+  return (
+    <main>
+      <CreateClub>Create</CreateClub>
+    </main>
+  );
 };
 
 export default Dashboard;
