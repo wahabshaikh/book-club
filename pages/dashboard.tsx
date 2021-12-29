@@ -1,12 +1,8 @@
 import { NextPage } from "next";
-import { useSession } from "next-auth/react";
 import ClubList from "../components/ClubList";
 import CreateClub from "../components/CreateClub";
 
 const Dashboard: NextPage = () => {
-  const { data: session } = useSession();
-  const userId = session?.user.id;
-
   return (
     <>
       <header className="flex items-center justify-between">
@@ -16,7 +12,7 @@ const Dashboard: NextPage = () => {
         <CreateClub />
       </header>
       <section className="mt-8">
-        {userId && <ClubList userId={userId} />}
+        <ClubList />
       </section>
     </>
   );
