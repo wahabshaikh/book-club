@@ -86,7 +86,7 @@ const CreateClub = () => {
         submitHandler={submitHandler}
         isLoading={isLoading}
         title="New club"
-        description=" Get started by filling in the information below to create your new club. "
+        description="Get started by filling in the information below to create your new club."
       >
         <Input label="Name" name="name" />
       </SlideOver>

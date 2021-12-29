@@ -15,7 +15,9 @@ const Dashboard: NextPage = () => {
         </h2>
         <CreateClub />
       </header>
-      <main className="mt-8">{userId && <ClubList userId={userId} />}</main>
+      <section className="mt-8">
+        {userId && <ClubList userId={userId} />}
+      </section>
     </>
   );
 };

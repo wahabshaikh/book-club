@@ -16,10 +16,13 @@ const ClubList = ({ userId }: ClubListProps) => {
   const [clubs, setClubs] = useState<
     { id: number; name: string; role: Role; isApproved: boolean }[]
   >([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchClubs() {
       try {
+        setIsLoading(true);
+
         const { data, error } = (await supabase
           .from("UserInClub")
           .select("role, isApproved, Club(id, name)")
@@ -42,6 +45,8 @@ const ClubList = ({ userId }: ClubListProps) => {
       } catch (error: any) {
         console.error(error);
         toast.error(error.message);
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -60,7 +65,7 @@ const ClubList = ({ userId }: ClubListProps) => {
   async function acceptInvitation(clubId: number, userId: string) {
     try {
       const { error } = await supabase
-        .from("UsersInRooms")
+        .from("UserInClub")
         .update({ isApproved: true, joinedAt: new Date().toISOString() })
         .eq("clubId", clubId)
         .eq("userId", userId);
@@ -71,6 +76,8 @@ const ClubList = ({ userId }: ClubListProps) => {
       toast.error(error.message);
     }
   }
+
+  if (isLoading) return <p>Loading...</p>;
 
   if (!clubs.length) return <p>No clubs found! Create a new club.</p>;
 
@@ -88,7 +95,13 @@ const ClubList = ({ userId }: ClubListProps) => {
                         {name}
                       </p>
                       <Badge
-                        variant={role === "ADMIN" ? "primary" : "secondary"}
+                        variant={
+                          role === "ADMIN"
+                            ? "primary"
+                            : isApproved
+                            ? "secondary"
+                            : "tertiary"
+                        }
                         className="mt-1.5"
                       >
                         {role}
