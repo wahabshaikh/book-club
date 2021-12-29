@@ -32,6 +32,7 @@ model Club {
   updatedAt DateTime     @updatedAt
   name      String
   members   UserInClub[]
+  events    Event[]
 }
 
 model UserInClub {
@@ -45,6 +46,16 @@ model UserInClub {
   joinedAt   DateTime? @updatedAt
 
   @@id([userId, clubId])
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  club        Club     @relation(fields: [clubId], references: [id])
+  clubId      Int
+  name        String
+  meetingUrl  String
+  scheduledAt DateTime
+  duration    Int
 }
 
 model Account {
