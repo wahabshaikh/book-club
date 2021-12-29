@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import Container from "./Container";
@@ -7,8 +7,13 @@ import Image from "next/image";
 import Link from "next/link";
 import Avatar from "./Avatar";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
-const navLinks = [{ title: "Dashboard", href: "/dashboard", current: true }];
+const navLinks = [
+  { title: "Dashboard", href: "/dashboard" },
+  { title: "Feedback", href: "/feedback" },
+];
+
 const menuItems = [
   { title: "Your Profile", href: "/profile" },
   { title: "Sign out", href: "/api/auth/signout" },
@@ -16,12 +21,19 @@ const menuItems = [
 
 const Navbar = () => {
   const { data: session } = useSession({ required: true });
+  const router = useRouter();
 
-  const email = session?.user?.email;
-  const name = session?.user?.name;
-  const image = session?.user?.image;
+  const [current, setCurrent] = useState(router.pathname);
 
-  if (!email) return null;
+  useEffect(() => {
+    setCurrent(router.pathname);
+  }, [router.pathname]);
+
+  if (!session?.user) return null;
+
+  const email = session?.user.email;
+  const name = session?.user.name;
+  const image = session?.user.image;
 
   return (
     <Disclosure as="nav" className="bg-white shadow">
@@ -39,12 +51,12 @@ const Navbar = () => {
                   />
                 </div>
                 <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                  {navLinks.map(({ title, href, current }) => (
+                  {navLinks.map(({ title, href }) => (
                     <Link key={title} href={href}>
                       <a
                         className={classNames(
                           "inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium",
-                          current
+                          current === href
                             ? "border-indigo-500 text-gray-900"
                             : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
                         )}
@@ -118,12 +130,12 @@ const Navbar = () => {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="pt-2 pb-3 space-y-1">
-              {navLinks.map(({ title, href, current }) => (
+              {navLinks.map(({ title, href }) => (
                 <Disclosure.Button key={title} as={Link} href={href}>
                   <a
                     className={classNames(
                       "bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium",
-                      current
+                      current === href
                         ? "bg-indigo-50 border-indigo-500 text-indigo-700"
                         : "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
                     )}
