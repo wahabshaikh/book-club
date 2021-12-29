@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import { DefaultSeo } from "next-seo";
 import Layout from "../components/Layout";
+import NextNProgress from "nextjs-progressbar";
 
 function CustomApp({
   Component,
@@ -66,6 +67,7 @@ function CustomApp({
           <Component {...pageProps} />
         ) : (
           <Layout>
+            <NextNProgress color="#4F46E5" />
             <Component />
           </Layout>
         )}
