@@ -35,14 +35,14 @@ model Club {
 }
 
 model UserInClub {
-  user       User     @relation(fields: [userId], references: [id])
+  user       User      @relation(fields: [userId], references: [id])
   userId     String
-  club       Club     @relation(fields: [clubId], references: [id])
+  club       Club      @relation(fields: [clubId], references: [id])
   clubId     Int
-  invitedAt  DateTime @default(now())
-  role       Role     @default(MEMBER)
-  isApproved Boolean  @default(false)
-  joinedAt   DateTime @updatedAt
+  invitedAt  DateTime  @default(now())
+  role       Role      @default(MEMBER)
+  isApproved Boolean   @default(false)
+  joinedAt   DateTime? @updatedAt
 
   @@id([userId, clubId])
 }

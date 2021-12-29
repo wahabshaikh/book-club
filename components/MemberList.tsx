@@ -1,18 +1,24 @@
 import { Role } from "@prisma/client";
 import { PostgrestResponse } from "@supabase/supabase-js";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { supabase } from "../lib/supabase";
 import Avatar from "./Avatar";
 import Badge from "./Badge";
+import InviteMember from "./InviteMember";
 
 interface MemberListProps {
   clubId: number;
 }
 
 const MemberList = ({ clubId }: MemberListProps) => {
+  const { data: session } = useSession();
+  const userId = session?.user.id;
+
   const [members, setMembers] = useState<
     {
+      id: string;
       name: string;
       email: string;
       image: string;
@@ -26,11 +32,12 @@ const MemberList = ({ clubId }: MemberListProps) => {
       try {
         const { data, error } = (await supabase
           .from("UserInClub")
-          .select("role, isApproved, User(name, email, image)")
+          .select("role, isApproved, User(id, name, email, image)")
           .filter("clubId", "eq", clubId)) as PostgrestResponse<{
           role: Role;
           isApproved: boolean;
           User: {
+            id: string;
             name: string;
             email: string;
             image: string;
@@ -69,6 +76,9 @@ const MemberList = ({ clubId }: MemberListProps) => {
     <div className="bg-white shadow overflow-hidden sm:rounded-md">
       <div className="px-4 py-5 border-b border-gray-200 sm:px-6 flex justify-between">
         <h3 className="text-lg leading-6 font-medium text-gray-900">Members</h3>
+        {!!(
+          members.find((member) => member.id === userId)?.role === "ADMIN"
+        ) && <InviteMember clubId={clubId} />}
       </div>
       <ul role="list" className="divide-y divide-gray-200">
         {members.map(({ name, email, image, role, isApproved }) => (
@@ -84,14 +94,17 @@ const MemberList = ({ clubId }: MemberListProps) => {
               </div>
             </div>
             <div className="inline-flex flex-col items-end">
-              <Badge variant={role === "ADMIN" ? "primary" : "secondary"}>
+              <Badge
+                variant={
+                  role === "ADMIN"
+                    ? "primary"
+                    : isApproved
+                    ? "secondary"
+                    : "tertiary"
+                }
+              >
                 {role}
               </Badge>
-              {!isApproved && (
-                <Badge variant="tertiary" className="mt-2">
-                  NOT APPROVED
-                </Badge>
-              )}
             </div>
           </li>
         ))}
