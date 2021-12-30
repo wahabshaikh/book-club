@@ -27,12 +27,14 @@ model User {
 }
 
 model Club {
-  id        Int          @id @default(autoincrement())
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-  name      String
-  members   UserInClub[]
-  events    Event[]
+  id            Int          @id @default(autoincrement())
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  coverImageUrl String
+  name          String
+  description   String
+  members       UserInClub[]
+  events        Event[]
 }
 
 model UserInClub {

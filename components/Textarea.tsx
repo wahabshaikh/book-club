@@ -1,14 +1,14 @@
-import classNames from "classnames";
-import { InputHTMLAttributes } from "react";
-import { useFormContext } from "react-hook-form";
 import { ExclamationCircleIcon } from "@heroicons/react/solid";
+import classNames from "classnames";
+import { TextareaHTMLAttributes } from "react";
+import { useFormContext } from "react-hook-form";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string;
   name: string;
 }
 
-const Input = ({ label, name, ...props }: InputProps) => {
+const Textarea = ({ label, name, ...props }: TextareaProps) => {
   const {
     register,
     formState: { errors },
@@ -20,8 +20,7 @@ const Input = ({ label, name, ...props }: InputProps) => {
         {label}
       </label>
       <div className="mt-1 relative rounded-md shadow-sm">
-        <input
-          type="text"
+        <textarea
           id={name}
           {...register(name, { required: `${label} is required.` })}
           className={classNames(
@@ -48,4 +47,4 @@ const Input = ({ label, name, ...props }: InputProps) => {
   );
 };
 
-export default Input;
+export default Textarea;

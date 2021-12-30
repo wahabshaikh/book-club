@@ -52,15 +52,15 @@ const SlideOver = ({
                     onSubmit={methods.handleSubmit(submitHandler)}
                   >
                     <div className="flex-1 h-0 overflow-y-auto">
-                      <div className="py-6 px-4 bg-indigo-700 sm:px-6">
+                      <div className="py-6 px-4 bg-brand sm:px-6">
                         <div className="flex items-center justify-between">
-                          <Dialog.Title className="text-lg font-medium text-white">
+                          <Dialog.Title className="text-lg font-bold text-accent">
                             {title}
                           </Dialog.Title>
                           <div className="ml-3 h-7 flex items-center">
                             <button
                               type="button"
-                              className="bg-indigo-700 rounded-md text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
+                              className="bg-brand rounded-md text-accent hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
                               onClick={() => setOpen(false)}
                             >
                               <span className="sr-only">Close panel</span>
@@ -69,9 +69,7 @@ const SlideOver = ({
                           </div>
                         </div>
                         <div className="mt-1">
-                          <p className="text-sm text-indigo-300">
-                            {description}
-                          </p>
+                          <p className="text-sm text-gray-500">{description}</p>
                         </div>
                       </div>
                       <div className="flex-1 flex flex-col justify-between">
@@ -85,9 +83,10 @@ const SlideOver = ({
                         Cancel
                       </Button>
                       <Button
-                        disabled={isLoading}
+                        variant="accent"
                         type="submit"
                         className="ml-4"
+                        disabled={isLoading}
                       >
                         Save
                       </Button>

@@ -9,9 +9,12 @@ import { supabase } from "../lib/supabase";
 import Button from "./Button";
 import Input from "./Input";
 import SlideOver from "./SlideOver";
+import Textarea from "./Textarea";
 
 type CreateClubInputs = {
   name: string;
+  description: string;
+  coverImageUrl: string;
 };
 
 const CreateClub = () => {
@@ -77,7 +80,9 @@ const CreateClub = () => {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>Create a club</Button>
+      <Button variant="accent" onClick={() => setOpen(true)}>
+        Create a club
+      </Button>
 
       <SlideOver
         open={open}
@@ -88,7 +93,9 @@ const CreateClub = () => {
         title="New club"
         description="Get started by filling in the information below to create your new club."
       >
+        <Input type="url" label="Cover Image URL" name="coverImageUrl" />
         <Input label="Name" name="name" />
+        <Textarea label="Description" name="description" />
       </SlideOver>
     </>
   );
