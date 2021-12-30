@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 
 const navLinks = [
   { title: "Dashboard", href: "/dashboard" },
+  { title: "Clubs", href: "/clubs" },
   { title: "Feedback", href: "/feedback" },
 ];
 
@@ -134,7 +135,7 @@ const Navbar = () => {
                 <Disclosure.Button key={title} as={Link} href={href}>
                   <a
                     className={classNames(
-                      "bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium",
+                      "block pl-3 pr-4 py-2 border-l-4 text-base font-medium",
                       current === href
                         ? "bg-indigo-50 border-indigo-500 text-indigo-700"
                         : "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"

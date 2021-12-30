@@ -71,7 +71,7 @@ const ClubList = () => {
   if (!clubs.length) return <p>No clubs found! Create a new club.</p>;
 
   return (
-    <div className="bg-white shadow overflow-hidden sm:rounded-md">
+    <div className="bg-brand shadow overflow-hidden sm:rounded-md">
       <ul role="list" className="divide-y divide-gray-200">
         {clubs.map(({ id, name, role, isApproved }) => (
           <li key={id}>
