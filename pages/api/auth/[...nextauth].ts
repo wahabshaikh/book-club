@@ -5,12 +5,12 @@ import { prisma } from "../../../lib/prisma";
 
 const clientId = process.env.GOOGLE_CLIENT_ID;
 if (!clientId) {
-  throw new Error(`Please add NEXT_PUBLIC_SUPABASE_URL to .env`);
+  throw new Error(`Please add GOOGLE_CLIENT_ID to .env`);
 }
 
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
 if (!clientSecret) {
-  throw new Error(`Please add NEXT_PUBLIC_SUPABASE_URL to .env`);
+  throw new Error(`Please add GOOGLE_CLIENT_SECRET to .env`);
 }
 
 declare module "next-auth" {
