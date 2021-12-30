@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Eczar:wght@700&family=Nunito:wght@400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.partial-underline {
+  @apply relative after:absolute after:inset-x-0 after:top-full after:m-1.5 after:mx-auto after:h-1 after:bg-primary after:w-16;
+}

@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { ButtonHTMLAttributes } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "white" | "pill";
+  variant?: "primary" | "accent" | "white" | "pill";
 }
 
 const Button = ({
@@ -17,7 +17,9 @@ const Button = ({
       className={classNames(
         "inline-flex justify-center items-center py-2 px-4 border rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
         variant === "primary" &&
-          "border-transparent text-white bg-indigo-600 hover:bg-indigo-700",
+          "border-transparent text-white bg-primary hover:bg-primary/90 focus:ring-primary",
+        variant === "accent" &&
+          "text-white bg-accent hover:bg-accent/90 focus:ring-accent",
         variant === "white" &&
           "border-gray-300 text-gray-700 bg-white hover:bg-gray-50",
         variant === "pill" &&

@@ -68,7 +68,7 @@ function CustomApp({
         ) : (
           <Layout>
             <NextNProgress color="#4F46E5" />
-            <Component />
+            <Component {...pageProps} />
           </Layout>
         )}
         <Toaster />
