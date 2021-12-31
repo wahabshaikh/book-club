@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { supabase } from "../lib/supabase";
 import Avatar from "./Avatar";
 import Badge from "./Badge";
+import Button from "./Button";
 import InviteMember from "./InviteMember";
 
 interface MemberListProps {
@@ -72,16 +73,39 @@ const MemberList = ({ clubId }: MemberListProps) => {
     };
   }, [clubId]);
 
+  async function approveMember(memberId: string) {
+    try {
+      const { error } = await supabase
+        .from("UserInClub")
+        .update({
+          role: "MEMBER",
+          isApproved: true,
+          joinedAt: new Date().toISOString(),
+        })
+        .eq("userId", memberId)
+        .eq("clubId", clubId);
+
+      if (error) throw new Error(error.message);
+
+      toast.success("Successfully approved member");
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.message);
+    }
+  }
+
+  const isAdmin = !!(
+    members.find((member) => member.id === userId)?.role === "ADMIN"
+  );
+
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-md">
       <div className="px-4 py-5 border-b border-gray-200 sm:px-6 flex justify-between">
         <h3 className="text-lg leading-6 font-medium text-gray-900">Members</h3>
-        {!!(
-          members.find((member) => member.id === userId)?.role === "ADMIN"
-        ) && <InviteMember clubId={clubId} />}
+        {isAdmin && <InviteMember clubId={clubId} />}
       </div>
       <ul role="list" className="divide-y divide-gray-200">
-        {members.map(({ name, email, image, role, isApproved }) => (
+        {members.map(({ id, name, email, image, role, isApproved }) => (
           <li
             key={email}
             className="px-4 py-5 sm:px-6 flex justify-between items-center"
@@ -105,6 +129,15 @@ const MemberList = ({ clubId }: MemberListProps) => {
               >
                 {role}
               </Badge>
+              {isAdmin && role === "REQUESTED" && (
+                <Button
+                  variant="pill"
+                  className="mt-1.5"
+                  onClick={() => approveMember(id)}
+                >
+                  Approve
+                </Button>
+              )}
             </div>
           </li>
         ))}

@@ -27,7 +27,7 @@ const ClubCard = ({ id, coverImageUrl, name, description }: ClubCardProps) => {
         </p>
         <Button
           className="mt-4 w-full"
-          onClick={() => router.push(`club/${id}`)}
+          onClick={() => router.push(`clubs/${id}`)}
         >
           View Club
         </Button>
