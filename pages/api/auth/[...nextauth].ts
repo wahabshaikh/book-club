@@ -3,6 +3,11 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "../../../lib/prisma";
 
+const secret = process.env.SECRET;
+if (!secret) {
+  throw new Error(`Please add SECRET to .env`);
+}
+
 const clientId = process.env.GOOGLE_CLIENT_ID;
 if (!clientId) {
   throw new Error(`Please add GOOGLE_CLIENT_ID to .env`);
@@ -41,4 +46,5 @@ export default NextAuth({
       return session;
     },
   },
+  secret,
 });
