@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import AcceptInvitation from "../../components/AcceptInvitation";
 import Button from "../../components/Button";
-import CreateEvent from "../../components/CreateEvent";
-import EventList from "../../components/EventList";
+import CreateReadingSession from "../../components/CreateReadingSession";
+import ReadingSessionList from "../../components/ReadingSessionList";
 import MemberList from "../../components/MemberList";
 import { prisma } from "../../lib/prisma";
 import { supabase } from "../../lib/supabase";
@@ -87,7 +87,7 @@ const ClubDetails: NextPage<ClubDetailsProps> = ({ club }) => {
           {name}
         </h2>
 
-        {isApproved && <CreateEvent clubId={clubId} />}
+        {isApproved && <CreateReadingSession clubId={clubId} />}
 
         {!isApproved && isInvited && (
           <AcceptInvitation
@@ -103,9 +103,9 @@ const ClubDetails: NextPage<ClubDetailsProps> = ({ club }) => {
         )}
       </header>
       <section className="mt-8 grid lg:grid-cols-3 gap-8">
-        {/* Event List */}
+        {/* Reading Session List */}
         <section className="lg:col-span-2">
-          <EventList clubId={clubId} />
+          <ReadingSessionList clubId={clubId} />
         </section>
 
         {/* Member List */}

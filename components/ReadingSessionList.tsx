@@ -1,41 +1,41 @@
 import { CalendarIcon, ChevronRightIcon } from "@heroicons/react/solid";
-import { Event } from "@prisma/client";
+import { ReadingSession } from "@prisma/client";
 import { PostgrestResponse } from "@supabase/supabase-js";
 import format from "date-fns/format";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { supabase } from "../lib/supabase";
 
-interface EventListProps {
+interface ReadingSessionListProps {
   clubId: number;
 }
 
-const EventList = ({ clubId }: EventListProps) => {
-  const [events, setEvents] = useState<Event[]>([]);
+const ReadingSessionList = ({ clubId }: ReadingSessionListProps) => {
+  const [readingSessions, setReadingSessions] = useState<ReadingSession[]>([]);
 
   useEffect(() => {
-    async function fetchEvents() {
+    async function fetchReadingSessions() {
       try {
-        const { data: events, error } = (await supabase
-          .from("Event")
+        const { data: readingSessions, error } = (await supabase
+          .from("ReadingSession")
           .select("*")
-          .filter("clubId", "eq", clubId)) as PostgrestResponse<Event>;
+          .filter("clubId", "eq", clubId)) as PostgrestResponse<ReadingSession>;
 
         if (error) throw new Error(error.message);
 
-        setEvents(events || []);
+        setReadingSessions(readingSessions || []);
       } catch (error: any) {
         console.error(error);
         toast.error(error.message);
       }
     }
 
-    fetchEvents();
+    fetchReadingSessions();
 
     const subscription = supabase
       .from("UserInClub")
       .on("*", () => {
-        fetchEvents();
+        fetchReadingSessions();
       })
       .subscribe();
 
@@ -47,10 +47,12 @@ const EventList = ({ clubId }: EventListProps) => {
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-md">
       <div className="px-4 py-5 border-b border-gray-200 sm:px-6 flex justify-between">
-        <h3 className="text-lg leading-6 font-medium text-gray-900">Events</h3>
+        <h3 className="text-lg leading-6 font-medium text-gray-900">
+          Reading Sessions
+        </h3>
       </div>
       <ul role="list" className="divide-y divide-gray-200">
-        {events.map(({ id, name, meetingUrl, scheduledAt, duration }) => (
+        {readingSessions.map(({ id, name, meetingUrl, scheduledAt }) => (
           <li key={id}>
             <a
               href={meetingUrl}
@@ -64,9 +66,6 @@ const EventList = ({ clubId }: EventListProps) => {
                     <div className="flex text-sm">
                       <p className="font-medium text-indigo-600 truncate">
                         {name}
-                      </p>
-                      <p className="ml-1 flex-shrink-0 font-normal text-gray-500">
-                        of {duration} mins
                       </p>
                     </div>
                     <div className="mt-2 flex">
@@ -103,4 +102,4 @@ const EventList = ({ clubId }: EventListProps) => {
   );
 };
 
-export default EventList;
+export default ReadingSessionList;

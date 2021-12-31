@@ -17,25 +17,26 @@ enum Role {
 }
 
 model User {
-  id            String       @id @default(cuid())
-  name          String?
-  email         String?      @unique
-  emailVerified DateTime?
-  image         String?
-  clubs         UserInClub[]
-  accounts      Account[]
-  sessions      Session[]
+  id              String                 @id @default(cuid())
+  name            String?
+  email           String?                @unique
+  emailVerified   DateTime?
+  image           String?
+  clubs           UserInClub[]
+  readingSessions UserInReadingSession[]
+  accounts        Account[]
+  sessions        Session[]
 }
 
 model Club {
-  id            Int          @id @default(autoincrement())
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  coverImageUrl String
-  name          String
-  description   String
-  members       UserInClub[]
-  events        Event[]
+  id              Int              @id @default(autoincrement())
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  coverImageUrl   String
+  name            String
+  description     String
+  members         UserInClub[]
+  readingSessions ReadingSession[]
 }
 
 model UserInClub {
@@ -51,14 +52,23 @@ model UserInClub {
   @@id([userId, clubId])
 }
 
-model Event {
-  id          Int      @id @default(autoincrement())
-  club        Club     @relation(fields: [clubId], references: [id])
+model ReadingSession {
+  id          Int                    @id @default(autoincrement())
+  club        Club                   @relation(fields: [clubId], references: [id])
   clubId      Int
   name        String
   meetingUrl  String
   scheduledAt DateTime
-  duration    Int
+  attendees   UserInReadingSession[]
+}
+
+model UserInReadingSession {
+  user             User           @relation(fields: [userId], references: [id])
+  userId           String
+  readingSession   ReadingSession @relation(fields: [readingSessionId], references: [id])
+  readingSessionId Int
+
+  @@id([userId, readingSessionId])
 }
 
 model Account {
