@@ -138,7 +138,7 @@ const Home: NextPage = () => {
         <p className="text-center text-gray-500 font-medium">
           Made with <HeartIcon className="h-5 w-5 inline text-red-500" /> by{" "}
           <a
-            href="https://twitter.com/wahabshaikh_"
+            href="https://twitter.com/iwahabshaikh"
             target="_blank"
             rel="noreferrer noopener"
             className="text-accent font-semibold"
